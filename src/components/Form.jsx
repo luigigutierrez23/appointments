@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { v4 as uuid } from 'uuid';
 
-const Form = () => {
+const Form = ({ handleAppointment }) => {
   const [appointment, setAppointment] = useState({
     pet: '',
     partner: '',
@@ -8,6 +9,8 @@ const Form = () => {
     time: '',
     symptom: '',
   });
+
+  const [error, setError] = useState(false);
 
   const updateState = (e) => {
     setAppointment({
@@ -18,10 +21,39 @@ const Form = () => {
 
   const { pet, partner, date, time, symptom } = appointment;
 
+  const buildAppointment = (e) => {
+    e.preventDefault();
+
+    if (
+      pet.trim() === '' ||
+      partner.trim() === '' ||
+      date.trim() === '' ||
+      time.trim() === '' ||
+      symptom.trim() === ''
+    ) {
+      setError(true);
+      return;
+    }
+
+    setError(false);
+
+    appointment.id = uuid();
+
+    handleAppointment(appointment);
+
+    setAppointment({
+      pet: '',
+      partner: '',
+      date: '',
+      time: '',
+      symptom: '',
+    });
+  };
+
   return (
     <div>
-      <h1>Create Appointment</h1>
-      <form>
+      {error ? <p className='error-alert'>All fields are required</p> : null}
+      <form onSubmit={buildAppointment}>
         <label htmlFor='name'>Pet name</label>
         <input
           type='text'
