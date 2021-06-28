@@ -37,7 +37,7 @@ function App() {
       <div className='container'>
         <div className='row'>
           <div className='one-half column'>
-            <h1>Appointment Form</h1>
+            <h1>Get your Appointment</h1>
             <Form handleAppointment={generateAppointment} />
           </div>
           <div className='one-half column'>
